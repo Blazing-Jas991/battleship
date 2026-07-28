@@ -13,4 +13,10 @@ describe('creates a player and a game board for that player', () => {
 
     expect(playerTwo.gameBoard).toBeInstanceOf(GameBoard);
   });
+
+  it('creates a computer player', () => {
+    const comPlayer = new Player('Claude', true);
+
+    expect(comPlayer.isComputer).toBe(true);
+  });
 });
