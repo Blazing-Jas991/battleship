@@ -1,4 +1,5 @@
 // gameBoard.js
+
 export class GameBoard {
   constructor() {
     this.rows = 10;

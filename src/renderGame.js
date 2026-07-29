@@ -1,3 +1,5 @@
+// renderGame.js
+
 export function renderGameBoard(rows, cols, board) {
   for (let i = 0; i < rows; i++) {
     let boardRow = document.createElement('div');
@@ -35,8 +37,10 @@ export function updateCell(row, col, result, container) {
 
   if (result === 'hit') {
     shipCoordinate.classList.add('hit-ships');
+    shipCoordinate.textContent = 'X';
   } else if (result === 'miss') {
     shipCoordinate.classList.add('missed-ships');
+    shipCoordinate.textContent = '.';
   } else {
     shipCoordinate.classList.add('already-attacked-ships');
   }

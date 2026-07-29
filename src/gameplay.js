@@ -1,3 +1,5 @@
+// gameplay.js
+
 import { Player } from './players.js';
 import { renderGameBoard, renderShips, updateCell } from './renderGame.js';
 import { Ship } from './ship.js';
@@ -7,24 +9,73 @@ const playerTwo = new Player('Claude', true);
 let currentPlayer = playerOne;
 
 const playerOneBoard = playerOne.gameBoard;
+const playerTwoBoard = playerTwo.gameBoard;
 
 const playerOneFirstShip = new Ship(4);
 const playerOneSecondShip = new Ship(3);
 const playerOneThirdShip = new Ship(3);
-
-playerOneBoard.placeShip(playerOneFirstShip, 2, 4, 'vertical');
-playerOneBoard.placeShip(playerOneSecondShip, 5, 2, 'horizontal');
-playerOneBoard.placeShip(playerOneThirdShip, 6, 8, 'vertical');
-
-const playerTwoBoard = playerTwo.gameBoard;
+const playerOneFourthShip = new Ship(2);
+const playerOneFifthShip = new Ship(2);
+const playerOneSixthShip = new Ship(1);
+const playerOneSeventhShip = new Ship(1);
 
 const playerTwoFirstShip = new Ship(2);
 const playerTwoSecondShip = new Ship(3);
 const playerTwoThirdShip = new Ship(4);
+const playerTwoFourthShip = new Ship(2);
+const playerTwoFifthShip = new Ship(3);
+const playerTwoSixthShip = new Ship(1);
+const playerTwoSeventhShip = new Ship(1);
 
-playerTwoBoard.placeShip(playerTwoFirstShip, 3, 5, 'vertical');
-playerTwoBoard.placeShip(playerTwoSecondShip, 9, 1, 'horizontal');
-playerTwoBoard.placeShip(playerTwoThirdShip, 5, 8, 'vertical');
+function placeShipRandomly(board, ship) {
+  let placementDirection = null;
+
+  if (Math.random() >= 0.5) {
+    placementDirection = 'vertical';
+  } else {
+    placementDirection = 'horizontal';
+  }
+
+  let attackedCol = Math.floor(Math.random() * 10);
+  let attackedRow = Math.floor(Math.random() * 10);
+  let shipPlacement = board.placeShip(
+    ship,
+    attackedRow,
+    attackedCol,
+    placementDirection
+  );
+  while (!shipPlacement) {
+    if (Math.random() >= 0.5) {
+      placementDirection = 'vertical';
+    } else {
+      placementDirection = 'horizontal';
+    }
+    attackedCol = Math.floor(Math.random() * 10);
+    attackedRow = Math.floor(Math.random() * 10);
+    shipPlacement = board.placeShip(
+      ship,
+      attackedRow,
+      attackedCol,
+      placementDirection
+    );
+  }
+}
+
+placeShipRandomly(playerOneBoard, playerOneFirstShip);
+placeShipRandomly(playerOneBoard, playerOneSecondShip);
+placeShipRandomly(playerOneBoard, playerOneThirdShip);
+placeShipRandomly(playerOneBoard, playerOneFourthShip);
+placeShipRandomly(playerOneBoard, playerOneFifthShip);
+placeShipRandomly(playerOneBoard, playerOneSixthShip);
+placeShipRandomly(playerOneBoard, playerOneSeventhShip);
+
+placeShipRandomly(playerTwoBoard, playerTwoFirstShip);
+placeShipRandomly(playerTwoBoard, playerTwoSecondShip);
+placeShipRandomly(playerTwoBoard, playerTwoThirdShip);
+placeShipRandomly(playerTwoBoard, playerTwoFourthShip);
+placeShipRandomly(playerTwoBoard, playerTwoFifthShip);
+placeShipRandomly(playerTwoBoard, playerTwoSixthShip);
+placeShipRandomly(playerTwoBoard, playerTwoSeventhShip);
 
 const playerOneContainer = document.querySelector('.player-board');
 const playerTwoContainer = document.querySelector('.computer-board');
@@ -41,9 +92,9 @@ function checkGameOver(board) {
   } else if (!boardCheck && currentPlayer === playerTwo) {
     currentPlayer = playerOne;
   } else if (boardCheck && currentPlayer === playerOne) {
-    return 'Game Over Player One Won The Game';
+    alert('Game Over Player One Won The Game');
   } else if (boardCheck && currentPlayer === playerTwo) {
-    return 'Game Over Player Two Won The Game';
+    alert('Game Over Player Two Won The Game');
   }
 }
 
@@ -52,6 +103,9 @@ playerTwoContainer.addEventListener('click', (event) => {
     return;
   }
   if (currentPlayer !== playerOne) {
+    return;
+  }
+  if (playerTwoBoard.areAllShipsSunk()) {
     return;
   }
 
@@ -65,6 +119,9 @@ playerTwoContainer.addEventListener('click', (event) => {
 
 function computerTurn() {
   if (currentPlayer !== playerTwo) {
+    return;
+  }
+  if (playerOneBoard.areAllShipsSunk()) {
     return;
   }
 
