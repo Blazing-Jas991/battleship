@@ -37,10 +37,10 @@ export function updateCell(row, col, result, container) {
 
   if (result === 'hit') {
     shipCoordinate.classList.add('hit-ships');
-    shipCoordinate.textContent = 'X';
+    shipCoordinate.textContent = '✹';
   } else if (result === 'miss') {
     shipCoordinate.classList.add('missed-ships');
-    shipCoordinate.textContent = '.';
+    shipCoordinate.textContent = 'x';
   } else {
     shipCoordinate.classList.add('already-attacked-ships');
   }
