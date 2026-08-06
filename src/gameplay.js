@@ -3,18 +3,27 @@
 import { renderGameBoard, renderShips } from './renderGame.js';
 import { Ship } from './ship.js';
 import {
-  playerOneContainer,
-  playerTwoContainer,
-  createAndPlaceComShips,
-  playerOneBoard,
   placeShipRandomly,
-  attackComputer,
-  appendComputerBoard,
-  appendPlayerBoard,
-  mainStagingContainer,
+  createGameSession,
+  dialog,
 } from './gameplayresources.js';
 
-function createAndPlaceHumanShips() {
+const randomPlacementButton = document.querySelector(
+  '.random-placement-button'
+);
+
+export function randomBoardPlay() {
+  const gameSession = createGameSession();
+  const {
+    playerOneBoard,
+    playerOneContainer,
+    playerTwoContainer,
+    appendPlayerBoard,
+    appendComputerBoard,
+    attackComputer,
+    createAndPlaceComShips,
+  } = gameSession;
+
   const playerOneFirstShip = new Ship(4);
   const playerOneSecondShip = new Ship(3);
   const playerOneThirdShip = new Ship(3);
@@ -35,25 +44,16 @@ function createAndPlaceHumanShips() {
   placeShipRandomly(playerOneBoard, playerOneEightShip);
   placeShipRandomly(playerOneBoard, playerOneNinthShip);
   placeShipRandomly(playerOneBoard, playerOneTenthShip);
-}
 
-export function randomBoardPlay() {
   appendPlayerBoard();
   appendComputerBoard();
-  mainStagingContainer.style.display = 'none';
-  createAndPlaceHumanShips();
-  createAndPlaceComShips();
   attackComputer();
+  createAndPlaceComShips();
   renderGameBoard(10, 10, playerOneContainer);
   renderGameBoard(10, 10, playerTwoContainer);
   renderShips(playerOneBoard, playerOneContainer);
 }
 
-export function randomPlacementPlay() {
-  const randomPlacementButton = document.querySelector(
-    '.random-placement-button'
-  );
-  randomPlacementButton.addEventListener('click', () => {
-    randomBoardPlay();
-  });
-}
+randomPlacementButton.addEventListener('click', () => {
+  dialog.close();
+});

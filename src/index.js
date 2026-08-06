@@ -1,8 +1,10 @@
 // index.js
 
-import { randomPlacementPlay } from './gameplay.js';
-import { selfPlacementPlay } from './selfplacementplay.js';
+import { randomBoardPlay } from './gameplay.js';
+import { clickSelfPlacement } from './selfplacementplay.js';
+import { dialog } from './gameplayresources.js';
 import './styles.css';
 
-randomPlacementPlay();
-selfPlacementPlay();
+dialog.showModal();
+randomBoardPlay();
+clickSelfPlacement();

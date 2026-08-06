@@ -75,7 +75,7 @@ body {
   display: flex;
   padding: 5px;
   gap: 5px; /* Added spacing so ships don't bunch together */
-  width: 610px;
+  width: 565px;
   height: 565px;
   border: solid 5px rgb(196, 41, 41);
 
@@ -136,4 +136,11 @@ h1 {
 .boards-container {
   display: flex;
   gap: 20px;
+}
+
+.buttons-holder {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
