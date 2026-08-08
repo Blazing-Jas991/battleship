@@ -2,15 +2,15 @@
 
 import { renderGameBoard, renderShips } from './renderGame.js';
 import { Ship } from './ship.js';
-import {
-  placeShipRandomly,
-  createGameSession,
-  dialog,
-} from './gameplayresources.js';
+import { placeShipRandomly, createGameSession } from './gameplayresources.js';
 
-const randomPlacementButton = document.querySelector(
-  '.random-placement-button'
-);
+export const randomResetButton = document.createElement('button');
+randomResetButton.textContent = 'Reset Random Game';
+randomResetButton.classList.add('reset-button');
+
+export const randomSwitchButton = document.createElement('button');
+randomSwitchButton.textContent = 'Switch To Self Placement Mode';
+randomSwitchButton.classList.add('random-switch-button');
 
 export function randomBoardPlay() {
   const gameSession = createGameSession();
@@ -53,7 +53,3 @@ export function randomBoardPlay() {
   renderGameBoard(10, 10, playerTwoContainer);
   renderShips(playerOneBoard, playerOneContainer);
 }
-
-randomPlacementButton.addEventListener('click', () => {
-  dialog.close();
-});

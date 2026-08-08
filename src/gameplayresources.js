@@ -7,6 +7,11 @@ import { updateCell } from './renderGame.js';
 export const pageBody = document.querySelector('body');
 export const mainStagingContainer = document.querySelector('.staging-div');
 export const dialog = document.querySelector('dialog');
+
+export const resetButtonHolder = document.createElement('div');
+resetButtonHolder.style.display = 'none';
+resetButtonHolder.classList.add('reset-button-holder');
+
 dialog.showModal();
 
 export function placeShipRandomly(board, ship) {
@@ -92,7 +97,7 @@ export function createGameSession() {
     playerTwoBoardText.textContent = 'Computer Board';
     playerTwoContainer.classList.add('computer-board');
     playerTwoBoardContainer.append(playerTwoBoardText, playerTwoContainer);
-    pageBody.appendChild(playerTwoBoardContainer);
+    pageBody.append(playerTwoBoardContainer);
   }
 
   function attackComputer() {
@@ -116,6 +121,8 @@ export function createGameSession() {
       }
       updateCell(clickedRow, clickedCol, attackResult, playerTwoContainer);
       checkGameOver(playerTwoBoard);
+      pageBody.appendChild(resetButtonHolder);
+      resetButtonHolder.style.display = '';
     });
   }
 
@@ -166,4 +173,13 @@ export function createGameSession() {
     playerOneContainer,
     playerTwoContainer,
   };
+}
+
+export function clearBoards() {
+  const playerBoardContainer = document.querySelector(
+    '.player-board-container'
+  );
+  const comBoardContainer = document.querySelector('.computer-board-container');
+  if (playerBoardContainer) playerBoardContainer.remove();
+  if (comBoardContainer) comBoardContainer.remove();
 }

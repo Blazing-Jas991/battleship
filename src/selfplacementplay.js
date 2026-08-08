@@ -4,7 +4,7 @@ import {
   createGameSession,
   dialog,
   mainStagingContainer,
-  pageBody,
+  clearBoards,
 } from './gameplayresources.js';
 import { renderGameBoard, renderShips } from './renderGame.js';
 import { Ship } from './ship.js';
@@ -14,9 +14,13 @@ const directionToggleButton = document.createElement('button');
 const stagingContainer = document.createElement('div');
 let currentDirection = 'vertical';
 
-export const selfPlacementButton = document.querySelector(
-  '.self-placement-button'
-);
+export const selfResetButton = document.createElement('button');
+selfResetButton.textContent = 'Reset Placement Game';
+selfResetButton.classList.add('-self-reset-button');
+
+export const selfSwitchButton = document.createElement('button');
+selfSwitchButton.textContent = 'Switch To Random Placement Mode';
+selfSwitchButton.classList.add('random-switch-button');
 
 function stagingHolder() {
   stagingText.textContent = 'Ship Staging Area';
@@ -28,6 +32,9 @@ function stagingHolder() {
     stagingContainer,
     directionToggleButton
   );
+  stagingContainer.style.display = '';
+  stagingText.style.display = '';
+  directionToggleButton.style.display = '';
 }
 
 directionToggleButton.addEventListener('click', () => {
@@ -127,17 +134,9 @@ export function createPlayerGameSession() {
   renderShips(playerOneBoard, playerOneContainer);
   createAndPlaceComShips();
 }
-export function clickSelfPlacement() {
-  selfPlacementButton.addEventListener('click', () => {
-    const playerBoardContainer = document.querySelector(
-      '.player-board-container'
-    );
-    const comBoardContainer = document.querySelector(
-      '.computer-board-container'
-    );
-    playerBoardContainer.remove();
-    comBoardContainer.remove();
-    createPlayerGameSession();
-    dialog.close();
-  });
+
+export function selfPlacementGame() {
+  clearBoards();
+  createPlayerGameSession();
+  dialog.close();
 }

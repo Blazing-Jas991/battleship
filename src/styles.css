@@ -144,3 +144,10 @@ h1 {
   flex-direction: column;
   gap: 10px;
 }
+
+.reset-button-holder {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
