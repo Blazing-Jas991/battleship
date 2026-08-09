@@ -11,8 +11,9 @@ export const dialog = document.querySelector('dialog');
 export const resetButtonHolder = document.createElement('div');
 resetButtonHolder.style.display = 'none';
 resetButtonHolder.classList.add('reset-button-holder');
-
 dialog.showModal();
+
+let targetQueue = [];
 
 export function placeShipRandomly(board, ship) {
   let placementDirection;
@@ -48,6 +49,14 @@ export function placeShipRandomly(board, ship) {
   }
 }
 
+function getAdjacentCoordinates(row, col) {
+  let upperRow = { row: row - 1, col: col };
+  let lowerRow = { row: row + 1, col: col };
+  let leftCol = { row: row, col: col - 1 };
+  let rightCol = { row: row, col: col + 1 };
+  return [upperRow, lowerRow, leftCol, rightCol];
+}
+
 export function createGameSession() {
   const playerOne = new Player('Jas');
   const playerTwo = new Player('Claude', true);
@@ -59,6 +68,16 @@ export function createGameSession() {
   const playerOneBoard = playerOne.gameBoard;
   const playerTwoBoard = playerTwo.gameBoard;
 
+  function pickNextTarget() {
+    if (targetQueue.length > 0) {
+      return targetQueue.shift();
+    }
+    return {
+      row: Math.floor(Math.random() * 10),
+      col: Math.floor(Math.random() * 10),
+    };
+  }
+
   function computerTurn() {
     if (currentPlayer !== playerTwo) {
       return;
@@ -67,21 +86,25 @@ export function createGameSession() {
       return;
     }
 
-    let attackedCol = Math.floor(Math.random() * 10);
-    let attackedRow = Math.floor(Math.random() * 10);
-    let attackResult = playerOneBoard.receiveAttack(attackedRow, attackedCol);
+    let target = pickNextTarget();
+    let attackOnPlayer = playerOneBoard.receiveAttack(target.row, target.col);
 
-    while (attackResult === 'already attacked') {
-      attackedCol = Math.floor(Math.random() * 10);
-      attackedRow = Math.floor(Math.random() * 10);
-      attackResult = playerOneBoard.receiveAttack(attackedRow, attackedCol);
+    while (attackOnPlayer === 'already attacked' || attackOnPlayer === false) {
+      target = pickNextTarget();
+      attackOnPlayer = playerOneBoard.receiveAttack(target.row, target.col);
     }
-    updateCell(attackedRow, attackedCol, attackResult, playerOneContainer);
+
+    if (attackOnPlayer === 'hit') {
+      let queueTargets = getAdjacentCoordinates(target.row, target.col);
+      targetQueue.push(...queueTargets);
+    }
+
+    updateCell(target.row, target.col, attackOnPlayer, playerOneContainer);
     checkGameOver(playerOneBoard);
   }
 
   function appendPlayerBoard() {
-    const playerOneBoardContainer = document.createElement('div');
+    const playerOneBoardContainer = document.createElement1('div');
     playerOneBoardContainer.classList.add('player-board-container');
     playerOneContainer.classList.add('player-board');
     const playerOneBoardText = document.createElement('h2');
