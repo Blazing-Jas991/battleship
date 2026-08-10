@@ -5,6 +5,7 @@ import {
   dialog,
   mainStagingContainer,
   clearBoards,
+  pageBody,
 } from './gameplayresources.js';
 import { renderGameBoard, renderShips } from './renderGame.js';
 import { Ship } from './ship.js';
@@ -69,6 +70,11 @@ export function createPlayerGameSession() {
   ];
 
   function renderShipStaging(ships, container) {
+    let draggedShipIndex = null;
+    let lastHoveredCell = null;
+    let draggedShipElement = null;
+    let actualShip = null;
+
     for (let i = 0; i < ships.length; i++) {
       let shipContainer = document.createElement('div');
       let shipItem = ships[i];
@@ -86,10 +92,95 @@ export function createPlayerGameSession() {
         shipContainer.appendChild(shipCell);
       }
       container.appendChild(shipContainer);
+
+      shipContainer.addEventListener('touchstart', (event) => {
+        actualShip = ships[i];
+        draggedShipElement = shipContainer;
+        draggedShipIndex = i;
+        draggedShipElement.style.position = 'fixed';
+        draggedShipElement.style.pointerEvents = 'none';
+      });
     }
 
     playerOneContainer.addEventListener('dragover', (event) => {
       event.preventDefault();
+    });
+
+    pageBody.addEventListener('touchmove', (event) => {
+      if (draggedShipIndex === null) {
+        return;
+      }
+      event.preventDefault();
+
+      const touch = event.touches[0];
+      const xCoordinate = touch.clientX;
+      const yCoordinate = touch.clientY;
+
+      draggedShipElement.style.left = `${xCoordinate - draggedShipElement.offsetWidth / 2}px`;
+      draggedShipElement.style.top = `${yCoordinate - draggedShipElement.offsetHeight / 2}px`;
+
+      const combinedCoordinates = document.elementFromPoint(
+        xCoordinate,
+        yCoordinate
+      );
+      if (combinedCoordinates === null) {
+        return;
+      }
+      if (lastHoveredCell !== null) {
+        lastHoveredCell.classList.remove('hovered-cell');
+      }
+      if (combinedCoordinates.dataset.row && combinedCoordinates.dataset.col) {
+        lastHoveredCell = combinedCoordinates;
+        lastHoveredCell.classList.add('hovered-cell');
+      } else {
+        lastHoveredCell = null;
+      }
+    });
+
+    function cleanUp() {
+      if (draggedShipElement !== null) {
+        draggedShipElement.style.position = '';
+        draggedShipElement.style.pointerEvents = 'auto';
+      }
+      if (lastHoveredCell !== null) {
+        lastHoveredCell.classList.remove('hovered-cell');
+      }
+      draggedShipIndex = null;
+      draggedShipElement = null;
+    }
+
+    pageBody.addEventListener('touchend', (event) => {
+      if (draggedShipIndex === null || lastHoveredCell === null) {
+        cleanUp();
+        return;
+      } else {
+        let rowForDrop = Number(lastHoveredCell.dataset.row);
+        let colForDrop = Number(lastHoveredCell.dataset.col);
+        let droppedShip = actualShip;
+        let touchPlacement = playerOneBoard.placeShip(
+          droppedShip,
+          rowForDrop,
+          colForDrop,
+          currentDirection
+        );
+        if (touchPlacement) {
+          renderShips(playerOneBoard, playerOneContainer);
+          let placedShip = container.querySelector(
+            `[data-ship-index="${draggedShipIndex}"]`
+          );
+          placedShip.remove();
+          if (stagingContainer.childElementCount === 0) {
+            stagingContainer.style.display = 'none';
+            stagingText.style.display = 'none';
+            directionToggleButton.style.display = 'none';
+            attackComputer();
+          }
+          cleanUp();
+        } else {
+          alert("Ship Can't be placed here");
+          cleanUp();
+        }
+      }
     });
 
     playerOneContainer.addEventListener('drop', (event) => {

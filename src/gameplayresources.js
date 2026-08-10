@@ -104,7 +104,7 @@ export function createGameSession() {
   }
 
   function appendPlayerBoard() {
-    const playerOneBoardContainer = document.createElement1('div');
+    const playerOneBoardContainer = document.createElement('div');
     playerOneBoardContainer.classList.add('player-board-container');
     playerOneContainer.classList.add('player-board');
     const playerOneBoardText = document.createElement('h2');
