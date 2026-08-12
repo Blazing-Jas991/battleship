@@ -6,6 +6,7 @@ import {
   mainStagingContainer,
   clearBoards,
   pageBody,
+  gameBoardsContainer,
 } from './gameplayresources.js';
 import { renderGameBoard, renderShips } from './renderGame.js';
 import { Ship } from './ship.js';
@@ -16,7 +17,7 @@ const stagingContainer = document.createElement('div');
 let currentDirection = 'vertical';
 
 export const selfResetButton = document.createElement('button');
-selfResetButton.textContent = 'Reset Placement Game';
+selfResetButton.textContent = 'Reset Game';
 selfResetButton.classList.add('-self-reset-button');
 
 export const selfSwitchButton = document.createElement('button');
@@ -36,6 +37,7 @@ function stagingHolder() {
   stagingContainer.style.display = '';
   stagingText.style.display = '';
   directionToggleButton.style.display = '';
+  gameBoardsContainer.appendChild(mainStagingContainer);
 }
 
 directionToggleButton.addEventListener('click', () => {
@@ -93,7 +95,7 @@ export function createPlayerGameSession() {
       }
       container.appendChild(shipContainer);
 
-      shipContainer.addEventListener('touchstart', (event) => {
+      shipContainer.addEventListener('touchstart', () => {
         actualShip = ships[i];
         draggedShipElement = shipContainer;
         draggedShipIndex = i;
@@ -216,11 +218,11 @@ export function createPlayerGameSession() {
     });
   }
 
+  stagingHolder();
   appendPlayerBoard();
   appendComputerBoard();
   renderGameBoard(10, 10, playerOneContainer);
   renderGameBoard(10, 10, playerTwoContainer);
-  stagingHolder();
   renderShipStaging(playerOneShips, stagingContainer);
   renderShips(playerOneBoard, playerOneContainer);
   createAndPlaceComShips();

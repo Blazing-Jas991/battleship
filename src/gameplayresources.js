@@ -7,6 +7,8 @@ import { updateCell } from './renderGame.js';
 export const pageBody = document.querySelector('body');
 export const mainStagingContainer = document.querySelector('.staging-div');
 export const dialog = document.querySelector('dialog');
+export const gameBoardsContainer = document.createElement('div');
+gameBoardsContainer.classList.add('game-boards-container');
 
 export const resetButtonHolder = document.createElement('div');
 resetButtonHolder.style.display = 'none';
@@ -110,7 +112,7 @@ export function createGameSession() {
     const playerOneBoardText = document.createElement('h2');
     playerOneBoardText.textContent = 'Player One Board';
     playerOneBoardContainer.append(playerOneBoardText, playerOneContainer);
-    pageBody.appendChild(playerOneBoardContainer);
+    gameBoardsContainer.appendChild(playerOneBoardContainer);
   }
 
   function appendComputerBoard() {
@@ -120,7 +122,8 @@ export function createGameSession() {
     playerTwoBoardText.textContent = 'Computer Board';
     playerTwoContainer.classList.add('computer-board');
     playerTwoBoardContainer.append(playerTwoBoardText, playerTwoContainer);
-    pageBody.append(playerTwoBoardContainer);
+    gameBoardsContainer.append(playerTwoBoardContainer);
+    pageBody.appendChild(gameBoardsContainer);
   }
 
   function attackComputer() {
