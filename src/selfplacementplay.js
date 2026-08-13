@@ -18,7 +18,7 @@ let currentDirection = 'vertical';
 
 export const selfResetButton = document.createElement('button');
 selfResetButton.textContent = 'Reset Game';
-selfResetButton.classList.add('-self-reset-button');
+selfResetButton.classList.add('self-reset-button');
 
 export const selfSwitchButton = document.createElement('button');
 selfSwitchButton.textContent = 'Switch To Random Placement Mode';
@@ -151,7 +151,7 @@ export function createPlayerGameSession() {
       draggedShipElement = null;
     }
 
-    pageBody.addEventListener('touchend', (event) => {
+    pageBody.addEventListener('touchend', () => {
       if (draggedShipIndex === null || lastHoveredCell === null) {
         cleanUp();
         return;

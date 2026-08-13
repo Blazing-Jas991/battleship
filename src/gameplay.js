@@ -5,8 +5,8 @@ import { Ship } from './ship.js';
 import { placeShipRandomly, createGameSession } from './gameplayresources.js';
 
 export const randomResetButton = document.createElement('button');
-randomResetButton.textContent = 'Reset Random Game';
-randomResetButton.classList.add('reset-button');
+randomResetButton.textContent = 'Reset Game';
+randomResetButton.classList.add('random-reset-button');
 
 export const randomSwitchButton = document.createElement('button');
 randomSwitchButton.textContent = 'Switch To Self Placement Mode';
