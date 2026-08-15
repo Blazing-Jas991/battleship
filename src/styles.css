@@ -177,6 +177,7 @@ dialog {
   border: solid 2px aliceblue;
   box-shadow: 1px 3px 20px 5px hsla(60, 2%, 68%, 0.5);
   text-align: center;
+  margin: auto;
 }
 
 .random-placement-button,
