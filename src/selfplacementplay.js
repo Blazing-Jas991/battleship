@@ -27,7 +27,7 @@ selfSwitchButton.classList.add('random-switch-button');
 function stagingHolder() {
   stagingText.textContent = 'Ship Staging Area';
   directionToggleButton.classList.add('toggle-button');
-  directionToggleButton.textContent = 'Press To SwitCh Between Ship Directions';
+  directionToggleButton.textContent = 'Drag The Cells to Place Ship On Board';
   stagingContainer.classList.add('ships-staging-container');
   mainStagingContainer.append(
     stagingText,
@@ -171,6 +171,9 @@ export function createPlayerGameSession() {
             `[data-ship-index="${draggedShipIndex}"]`
           );
           placedShip.remove();
+          directionToggleButton.textContent =
+            'Click Here To Change Ship Direction';
+
           if (stagingContainer.childElementCount === 0) {
             stagingContainer.style.display = 'none';
             stagingText.style.display = 'none';
@@ -206,6 +209,8 @@ export function createPlayerGameSession() {
           `[data-ship-index="${dropData}"]`
         );
         placedShip.remove();
+        directionToggleButton.textContent =
+          'Click Here To Change Ship Direction';
         if (stagingContainer.childElementCount === 0) {
           stagingContainer.style.display = 'none';
           stagingText.style.display = 'none';
