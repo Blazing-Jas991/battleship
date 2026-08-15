@@ -31,7 +31,7 @@ body {
 .game-boards-container {
   margin-top: 0.25rem;
   display: flex;
-  gap: 0.25rem;
+  gap: 0.625rem;
   flex-wrap: wrap;
   justify-content: center;
 }
@@ -91,6 +91,8 @@ body {
   width: clamp(17.7rem, 42vw, 29rem);
   height: clamp(17.7rem, 44.7vw, 29rem);
   border: solid 5px rgb(196, 41, 41);
+  flex-wrap: wrap;
+  align-content: start;
 
   /* DEFAULT STATE: Row layout (Ships sit next to each other horizontally) */
   flex-direction: row;
@@ -175,7 +177,6 @@ dialog {
   border: solid 2px aliceblue;
   box-shadow: 1px 3px 20px 5px hsla(60, 2%, 68%, 0.5);
   text-align: center;
-  background-color: red;
 }
 
 .random-placement-button,

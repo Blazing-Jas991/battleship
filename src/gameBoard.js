@@ -22,27 +22,30 @@ export class GameBoard {
     }
 
     for (let i = 0; i < ship.length; i++) {
-      if (direction === 'vertical') {
-        let currentRow = startRow + i;
+      let currentColumn = startCol;
+      let currentRow = startRow + i;
 
+      if (direction === 'vertical') {
         if (currentRow < 0 || currentRow >= this.rows) {
           return false;
         }
-
-        if (this.playingBoard[currentRow][startCol] !== null) {
-          return false;
-        }
-      }
-
-      if (direction === 'horizontal') {
-        let currentColumn = startCol + i;
+      } else {
+        currentRow = startRow;
+        currentColumn = startCol + i;
 
         if (currentColumn < 0 || currentColumn >= this.cols) {
           return false;
         }
+      }
 
-        if (this.playingBoard[startRow][currentColumn] !== null) {
-          return false;
+      for (let r = currentRow - 1; r <= currentRow + 1; r++) {
+        for (let c = currentColumn - 1; c <= currentColumn + 1; c++) {
+          if (r < 0 || r >= this.rows || c < 0 || c >= this.cols) {
+            continue;
+          }
+          if (this.playingBoard[r][c] !== null) {
+            return false;
+          }
         }
       }
     }
