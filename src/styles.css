@@ -93,6 +93,8 @@ body {
   border: solid 5px rgb(196, 41, 41);
   flex-wrap: wrap;
   align-content: start;
+  touch-action: none;
+  user-select: none;
 
   /* DEFAULT STATE: Row layout (Ships sit next to each other horizontally) */
   flex-direction: row;
@@ -103,6 +105,8 @@ body {
   /* DEFAULT STATE: Vertical orientation (Cells stack downward) */
   flex-direction: column;
   gap: 1px; /* Small spacing between individual red boxes */
+  touch-action: none;
+  user-select: none;
 }
 
 .staging-ship-cell {

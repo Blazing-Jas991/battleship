@@ -113,6 +113,7 @@ export function createPlayerGameSession() {
         return;
       }
       event.preventDefault();
+      shipContainer.draggable = false;
 
       const touch = event.touches[0];
       const xCoordinate = touch.clientX;
